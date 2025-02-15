@@ -81,6 +81,7 @@ runs:
       if: inputs.docker-username || inputs.docker-password
       uses: docker/login-action@v2
       with:
+        registry: ${{ inputs.registry }}
         username: ${{ inputs.docker-username }}
         password: ${{ inputs.docker-password }}
     
