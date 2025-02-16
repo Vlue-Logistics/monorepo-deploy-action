@@ -98,7 +98,7 @@ runs:
         #   type=registry,ref=${{inputs.registry}}/${{inputs.image-name}}:cache
         build-args: |
           NODE_ENV=${{ env.ENV }}
-        file: ${{ inputs.dockerfile-path }}1
+        file: ${{ inputs.dockerfile-path }}
         tags: >-
           ${{inputs.registry}}/${{inputs.image-name}},${{inputs.registry}}/${{inputs.image-name}}:${{env.LATEST_TAG}},${{inputs.registry}}/${{inputs.image-name}}:${{env.TAG}}
 
