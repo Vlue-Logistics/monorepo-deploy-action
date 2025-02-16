@@ -131,7 +131,7 @@ runs:
         args: -n ${{inputs.kube-namespace-prefix}}-${{env.ENV}} set image ${{inputs.kube-resource}} *=${{inputs.registry}}/${{inputs.image-name}}:${{env.TAG}}
 
     - name: Update SSM
-      uses: joshghent/aws-ssm-parameter-store@v2
+      uses: joshghent/aws-ssm-parameter-store@v2.2.0
       with:
         ssm-path: "${{env.ENV}}/${{inputs.image-name}}/version"
         ssm-value: ${{ env.TAG }}
