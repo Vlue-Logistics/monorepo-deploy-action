@@ -133,7 +133,7 @@ runs:
     - name: Update SSM
       uses: joshghent/aws-ssm-parameter-store@v2.2.0
       with:
-        ssm-path: "${{env.ENV}}/${{inputs.image-name}}/version"
+        ssm-path: "/${{env.ENV}}/${{inputs.image-name}}/version"
         ssm-value: ${{ env.TAG }}
         aws-region: us-east-1
         ssm-value-type: "String"
