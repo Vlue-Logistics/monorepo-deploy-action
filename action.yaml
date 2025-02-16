@@ -85,6 +85,10 @@ runs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
+    - name: Create repository if not exists
+      shell: bash
+      run: aws ecr describe-repositories --repository-names ${{inputs.image-name}} || aws ecr create-repository --repository-name ${{inputs.image-name}}
+
     -
       name: Build and push
       uses: docker/build-push-action@v4
