@@ -89,6 +89,12 @@ runs:
       shell: bash
       run: aws ecr describe-repositories --repository-names ${{inputs.image-name}} || aws ecr create-repository --repository-name ${{inputs.image-name}}
 
+    - name: Get environment
+      shell: bash
+      run: |
+        aws secretsmanager get-secret-value --secret-id ${{env.ENV}}/${{inputs.image-name}} --query SecretString --output text > .env || 
+          aws secretsmanager create-secret --name ${{env.ENV}}/${{inputs.image-name}} --secret-string " " --output text
+
     -
       name: Build and push
       uses: docker/build-push-action@v4
@@ -102,8 +108,6 @@ runs:
         #   type=registry,ref=${{inputs.registry}}/${{inputs.image-name}}:cache
         build-args: |
           NODE_ENV=${{ env.ENV }}
-          AWS_ACCESS_KEY_ID=${{ inputs.aws-access-key-id }}
-          AWS_SECRET_ACCESS_KEY=${{ inputs.aws-secret-access-key }}
         file: ${{ inputs.dockerfile-path }}
         tags: >-
           ${{inputs.registry}}/${{inputs.image-name}},${{inputs.registry}}/${{inputs.image-name}}:${{env.LATEST_TAG}},${{inputs.registry}}/${{inputs.image-name}}:${{env.TAG}}
