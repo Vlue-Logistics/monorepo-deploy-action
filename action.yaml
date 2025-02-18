@@ -1,5 +1,5 @@
-name: "Digital Ocean Deploy"
-description: "Digital Ocean kubernetes deploy"
+name: "Deploy"
+description: "deploy"
 inputs:
   branch-develop:
     required: false
