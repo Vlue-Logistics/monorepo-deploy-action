@@ -107,14 +107,6 @@ runs:
         tags: >-
           ${{inputs.registry}}/${{inputs.image-name}},${{inputs.registry}}/${{inputs.image-name}}:${{env.LATEST_TAG}},${{inputs.registry}}/${{inputs.image-name}}:${{env.TAG}}
 
-    - name: Set K8s resource image
-      if: ${{inputs.kubeconfig && inputs.kube-resource}}
-      uses: actions-hub/kubectl@master
-      env:
-        KUBE_CONFIG: ${{ inputs.kubeconfig }}
-      with:
-        args: -n ${{inputs.kube-namespace-prefix}}-${{env.ENV}} set image ${{inputs.kube-resource}} *=${{inputs.registry}}/${{inputs.image-name}}:${{env.TAG}}
-
     - name: Update SSM
       uses: joshghent/aws-ssm-parameter-store@v2.2.0
       with:
@@ -122,3 +114,11 @@ runs:
         ssm-value: ${{ env.TAG }}
         aws-region: us-east-1
         ssm-value-type: "String"
+        
+    - name: Set K8s resource image
+      if: ${{inputs.kubeconfig && inputs.kube-resource}}
+      uses: actions-hub/kubectl@master
+      env:
+        KUBE_CONFIG: ${{ inputs.kubeconfig }}
+      with:
+        args: -n ${{inputs.kube-namespace-prefix}}-${{env.ENV}} set image ${{inputs.kube-resource}} *=${{inputs.registry}}/${{inputs.image-name}}:${{env.TAG}}
