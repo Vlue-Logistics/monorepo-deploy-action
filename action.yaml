@@ -101,30 +101,11 @@ runs:
       with:
         context: .
         push: true
-        # Disable cache due to https://github.com/docker/build-push-action/issues/858. Issue Closed
-        # cache-from: |
-        #   type=registry,ref=${{inputs.registry}}/${{inputs.image-name}}:cache
-        # cache-to: |
-        #   type=registry,ref=${{inputs.registry}}/${{inputs.image-name}}:cache
         build-args: |
           NODE_ENV=${{ env.ENV }}
         file: ${{ inputs.dockerfile-path }}
         tags: >-
           ${{inputs.registry}}/${{inputs.image-name}},${{inputs.registry}}/${{inputs.image-name}}:${{env.LATEST_TAG}},${{inputs.registry}}/${{inputs.image-name}}:${{env.TAG}}
-
-    # - name: Build image
-    #   shell: bash
-    #   run: |
-    #     docker buildx build \
-    #       --build-arg NODE_ENV=${{ env.ENV }} \
-    #       --build-arg CONSUL_HTTP_ADDR=${{ inputs.consul-http-addr }} \
-    #       --build-arg CONSUL_HTTP_TOKEN=${{ inputs.consul-http-token }} \
-    #       --tag ${{inputs.registry}}/${{inputs.image-name}} \
-    #       --tag ${{inputs.registry}}/${{inputs.image-name}}:${{env.LATEST_TAG}} \
-    #       --tag ${{inputs.registry}}/${{inputs.image-name}}:${{env.TAG}} \
-    #       --push \
-    #       .
-
 
     - name: Set K8s resource image
       if: ${{inputs.kubeconfig && inputs.kube-resource}}
