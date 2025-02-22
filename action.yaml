@@ -65,15 +65,19 @@ runs:
         fi
         if [ $branch = ${{inputs.branch-production}} ]; then 
           env="production";
+          localized_env="produccion";
           latest_tag="latest"
         elif [ $branch = ${{inputs.branch-develop}} ]; then 
           env="develop";
+          localized_env="develop";
           latest_tag="${env}-latest"
         else 
           env="develop";
+          localized_env="develop";
           latest_tag="${env}-latest"
         fi
         echo "ENV=$(echo $env)" >> $GITHUB_ENV
+        echo "LOCALIZED_ENV=$(echo $localized_env)" >> $GITHUB_ENV
         echo "LATEST_TAG=$(echo $latest_tag)" >> $GITHUB_ENV
         tag="${env}${{inputs.image-tag-suffix}}"
         echo "TAG=$(echo $tag)" >> $GITHUB_ENV
@@ -121,4 +125,4 @@ runs:
       env:
         KUBE_CONFIG: ${{ inputs.kubeconfig }}
       with:
-        args: -n ${{inputs.kube-namespace-prefix}}-${{env.ENV}} set image ${{inputs.kube-resource}} *=${{inputs.registry}}/${{inputs.image-name}}:${{env.TAG}}
+        args: -n ${{inputs.kube-namespace-prefix}}-${{env.LOCALIZED_ENV}} set image ${{inputs.kube-resource}} *=${{inputs.registry}}/${{inputs.image-name}}:${{env.TAG}}
