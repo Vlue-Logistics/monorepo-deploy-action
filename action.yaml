@@ -107,6 +107,7 @@ runs:
         push: true
         build-args: |
           NODE_ENV=${{ env.ENV }}
+          TAG=${{ env.TAG }}
         file: ${{ inputs.dockerfile-path }}
         tags: >-
           ${{inputs.registry}}/${{inputs.image-name}},${{inputs.registry}}/${{inputs.image-name}}:${{env.LATEST_TAG}},${{inputs.registry}}/${{inputs.image-name}}:${{env.TAG}}
